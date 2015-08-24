@@ -4,23 +4,23 @@ var app = app || {};
 (function () {
 	'use strict';
 
-	// Todo Router
+	// Video Router
 	// ----------
-	var TodoRouter = Backbone.Router.extend({
+	var VideoRouter = Backbone.Router.extend({
 		routes: {
 			'*filter': 'setFilter'
 		},
 
 		setFilter: function (param) {
 			// Set the current filter to be used
-			app.TodoFilter = param || '';
+			app.VideoFilter = param || '';
 
 			// Trigger a collection filter event, causing hiding/unhiding
-			// of Todo view items
-			app.todos.trigger('filter');
+			// of Video view items
+			app.videos.trigger('filter');
 		}
 	});
 
-	app.TodoRouter = new TodoRouter();
+	app.VideoRouter = new VideoRouter();
 	Backbone.history.start();
 })();

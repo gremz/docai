@@ -1,0 +1,14 @@
+{
+  "framework": "mocha",
+  "src_files": [
+    "lib/underscore.js",
+    "lib/jquery.js",
+    "lib/backbone.js",
+    "lib/backbone.localStorage.js",
+    "js/*/*.js",
+    "lib/chai.js",
+    "lib/sinon-chai.js",
+    "lib/sinon-1.16.1.js",
+    "test/*.js"
+  ]
+}

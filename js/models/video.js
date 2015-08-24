@@ -4,31 +4,30 @@ var app = app || {};
 (function () {
 	'use strict';
 
-	// Todo Model
+	// Video Model
 	// ----------
 
-	// Our basic **Todo** model has `title`, `order`, and `completed` attributes.
-	app.Todo = Backbone.Model.extend({
+	// Our basic **Video** model
+	app.Video = Backbone.Model.extend({
 		initialize: function() {
 			this.on('add change:url', function() {
 				this.set({ yt_id: this.get('url').match(/v=(.*)$/)[1] });
 				this.getYtData();
 			});
 		},
-		// Default attributes for the todo
-		// and ensure that each todo created has `title` and `completed` keys.
+
 		defaults: {
 			title: '',
 			yt_id: '',
 			url: '',
 			thumbnail: '',
-			completed: false
+			likes: 0
 		},
 
-		// Toggle the `completed` state of this todo item.
-		toggle: function () {
+		// Add the `like` state of this video.
+		addLike: function () {
 			this.save({
-				completed: !this.get('completed')
+				completed: this.get('likes') + 1
 			});
 		},
 		getYtData: function() {

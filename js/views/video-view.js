@@ -4,11 +4,11 @@ var app = app || {};
 (function ($) {
 	'use strict';
 
-	// Todo Item View
+	// Video Item View
 	// --------------
 
-	// The DOM element for a todo item...
-	app.TodoView = Backbone.View.extend({
+	// The DOM element for a video item...
+	app.VideoView = Backbone.View.extend({
 		//... is a list tag.
 		tagName:  'li',
 
@@ -17,7 +17,7 @@ var app = app || {};
 
 		// The DOM events specific to an item.
 		events: {
-			'click .toggle': 'toggleCompleted',
+			'click .like': 'addLike',
 			'dblclick label': 'edit',
 			'click .destroy': 'clear',
 			'keypress .edit': 'updateOnEnter',
@@ -26,20 +26,20 @@ var app = app || {};
 			'click .play-button': 'loadYtIFrame'
 		},
 
-		// The TodoView listens for changes to its model, re-rendering. Since
-		// there's a one-to-one correspondence between a **Todo** and a
-		// **TodoView** in this app, we set a direct reference on the model for
+		// The VideoView listens for changes to its model, re-rendering. Since
+		// there's a one-to-one correspondence between a **Video** and a
+		// **VideoView** in this app, we set a direct reference on the model for
 		// convenience.
 		initialize: function () {
 			this.listenTo(this.model, 'change', this.render);
 			this.listenTo(this.model, 'destroy', this.remove);
-			this.listenTo(this.model, 'visible', this.toggleVisible);
+			this.listenTo(this.model, 'liked', this.toggleMostLiked);
 		},
 
 		// Re-render the titles of the todo item.
 		render: function () {
 			// Backbone LocalStorage is adding `id` attribute instantly after
-			// creating a model.  This causes our TodoView to render twice. Once
+			// creating a model.  This causes our VideoView to render twice. Once
 			// after creating a model and once on `id` change.  We want to
 			// filter out the second redundant render, which is caused by this
 			// `id` change.  It's known Backbone LocalStorage bug, therefore
@@ -51,24 +51,24 @@ var app = app || {};
 
 			this.$el.html(this.template(this.model.toJSON()));
 			this.$el.toggleClass('completed', this.model.get('completed'));
-			this.toggleVisible();
+			// this.toggleMostLiked();
 			this.$input = this.$('.edit');
 			return this;
 		},
 
-		toggleVisible: function () {
-			this.$el.toggleClass('hidden', this.isHidden());
+		toggleMostLiked: function () {
+			this.$el.toggleClass('hidden', this.isLiked());
 		},
 
-		isHidden: function () {
-			return this.model.get('completed') ?
-				app.TodoFilter === 'active' :
-				app.TodoFilter === 'completed';
+		isLiked: function () {
+			return this.model.get('likes') > 0  && app.VideoFilter === 'liked';
+				// app.VideoFilter === 'liked' :
+				// app.VideoFilter === 'completed';
 		},
 
-		// Toggle the `"completed"` state of the model.
-		toggleCompleted: function () {
-			this.model.toggle();
+		// Add like to model.
+		addLike: function () {
+			this.model.addLike();
 		},
 
 		// Switch this view into `"editing"` mode, displaying the input field.

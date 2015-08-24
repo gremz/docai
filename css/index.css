@@ -44,7 +44,7 @@ input[type="checkbox"] {
 	display: none;
 }
 
-#todoapp {
+#ytfaves {
 	background: #fff;
 	margin: 130px 0 40px 0;
 	position: relative;
@@ -52,25 +52,25 @@ input[type="checkbox"] {
 	            0 25px 50px 0 rgba(0, 0, 0, 0.1);
 }
 
-#todoapp input::-webkit-input-placeholder {
+#ytfaves input::-webkit-input-placeholder {
 	font-style: italic;
 	font-weight: 300;
 	color: #e6e6e6;
 }
 
-#todoapp input::-moz-placeholder {
+#ytfaves input::-moz-placeholder {
 	font-style: italic;
 	font-weight: 300;
 	color: #e6e6e6;
 }
 
-#todoapp input::input-placeholder {
+#ytfaves input::input-placeholder {
 	font-style: italic;
 	font-weight: 300;
 	color: #e6e6e6;
 }
 
-#todoapp h1 {
+#ytfaves h1 {
 	position: absolute;
 	top: -155px;
 	width: 100%;
@@ -83,7 +83,7 @@ input[type="checkbox"] {
 	text-rendering: optimizeLegibility;
 }
 
-#new-todo,
+#new-vid,
 .edit {
 	position: relative;
 	margin: 0;
@@ -104,7 +104,7 @@ input[type="checkbox"] {
 	font-smoothing: antialiased;
 }
 
-#new-todo {
+#new-vid {
 	padding: 16px 16px 16px 60px;
 	border: none;
 	background: rgba(0, 0, 0, 0.003);
@@ -142,39 +142,39 @@ label[for='toggle-all'] {
 	color: #737373;
 }
 
-#todo-list {
+#vid-list {
 	margin: 0;
 	padding: 0;
 	list-style: none;
 }
 
-#todo-list li {
+#vid-list li {
 	position: relative;
 	font-size: 24px;
 	border-bottom: 1px solid #ededed;
 }
 
-#todo-list li:last-child {
+#vid-list li:last-child {
 	border-bottom: none;
 }
 
-#todo-list li.editing {
+#vid-list li.editing {
 	border-bottom: none;
 	padding: 0;
 }
 
-#todo-list li.editing .edit {
+#vid-list li.editing .edit {
 	display: block;
 	width: 506px;
-	padding: 13px 17px 12px 17px;
-	margin: 0 0 0 43px;
+	padding: 13px 17px 12px 0px;
+	margin: 0 0 0 35px;
 }
 
-#todo-list li.editing .view {
+#vid-list li.editing .view {
 	display: none;
 }
 
-#todo-list li .toggle {
+#vid-list li .toggle {
 	text-align: center;
 	width: 40px;
 	/* auto, since non-WebKit browsers doesn't support input styling */
@@ -188,43 +188,44 @@ label[for='toggle-all'] {
 	appearance: none;
 }
 
-#todo-list li .toggle:after {
+#vid-list li .toggle:after {
 	content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#ededed" stroke-width="3"/></svg>');
 }
 
-#todo-list li .toggle:checked:after {
+#vid-list li .toggle:checked:after {
 	content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#bddad5" stroke-width="3"/><path fill="#5dc2af" d="M72 25L42 71 27 56l-4 4 20 20 34-52z"/></svg>');
 }
 
-#todo-list li label {
+#vid-list li label {
 	white-space: pre;
 	word-break: break-word;
-	padding: 15px 60px 15px 15px;
-	margin-left: 45px;
+	padding: 15px 80px 15px 0;
+	margin-left: 35px;
 	display: block;
 	line-height: 1.2;
 	transition: color 0.4s;
 }
 
-#todo-list li.completed label {
+#vid-list li.completed label {
 	color: #d9d9d9;
 	text-decoration: line-through;
 }
 
-#todo-list li img {
+#vid-list li img {
 	opacity: 0.85;
 }
 
-#todo-list li img ,
-#todo-list li iframe {
+#vid-list li img ,
+#vid-list li iframe,
+.actions {
 	margin-left: 35px;
 }
 
-#todo-list .thumbnail-container {
+#vid-list .thumbnail-container {
 	position: relative;
 }
 
-#todo-list .play-button {
+#vid-list .play-button {
     position: absolute;
     top: 160px;
     left: 235px;
@@ -234,11 +235,11 @@ label[for='toggle-all'] {
     border-radius: 5px;
 }
 
-#todo-list .play-button:hover {
+#vid-list .play-button:hover {
     background-color: rgba(0, 173, 239, 0.9);
 }
 
-#todo-list .play-button:after {
+#vid-list .play-button:after {
     content: "";
     display: block;
     position: absolute;
@@ -250,11 +251,11 @@ label[for='toggle-all'] {
     border-color: transparent transparent transparent rgba(255, 255, 255, 1);
 }
 
-#todo-list li .like {
+#vid-list li .like {
 	color: red;
 }
 
-#todo-list li .destroy {
+#vid-list li .destroy {
 	display: none;
 	position: absolute;
 	top: 0;
@@ -269,25 +270,69 @@ label[for='toggle-all'] {
 	transition: color 0.2s ease-out;
 }
 
-#todo-list li .destroy:hover {
+#vid-list li .destroy:hover {
 	color: #af5b5e;
 }
 
-#todo-list li .destroy:after {
+#vid-list li .destroy:after {
 	content: '×';
 }
 
-#todo-list li:hover .destroy {
+#vid-list li:hover .destroy {
 	display: block;
 }
 
-#todo-list li .edit {
+#vid-list li .edit {
 	display: none;
 }
 
-#todo-list li.editing:last-child {
+#vid-list li.editing:last-child {
 	margin-bottom: -1px;
 }
+
+.heart {
+    position: absolute;
+    right: 32px;
+    width: 40px;
+    height: 30px;
+}
+
+.heart:before,
+.heart:after {
+    position: absolute;
+    content: "";
+    left: 20px;
+    top: 0;
+    width: 20px;
+    height: 30px;
+    background: red;
+    -moz-border-radius: 50px 50px 0 0;
+    border-radius: 50px 50px 0 0;
+    -webkit-transform: rotate(-45deg);
+       -moz-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+         -o-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+    -webkit-transform-origin: 0 100%;
+       -moz-transform-origin: 0 100%;
+        -ms-transform-origin: 0 100%;
+         -o-transform-origin: 0 100%;
+            transform-origin: 0 100%;
+}
+.heart:after {
+    left: 0;
+    -webkit-transform: rotate(45deg);
+       -moz-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+         -o-transform: rotate(45deg);
+            transform: rotate(45deg);
+    -webkit-transform-origin: 100% 100%;
+       -moz-transform-origin: 100% 100%;
+        -ms-transform-origin: 100% 100%;
+         -o-transform-origin: 100% 100%;
+            transform-origin :100% 100%;
+}
+
 
 #footer {
 	color: #777;
@@ -312,12 +357,12 @@ label[for='toggle-all'] {
 	            0 17px 2px -6px rgba(0, 0, 0, 0.2);
 }
 
-#todo-count {
+#vid-count {
 	float: left;
 	text-align: left;
 }
 
-#todo-count strong {
+#vid-count strong {
 	font-weight: 300;
 }
 
@@ -368,7 +413,7 @@ html #clear-completed:active {
 
 #info {
 	margin: 65px auto 0;
-	color: #bfbfbf;
+	color: #777;
 	font-size: 10px;
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 	text-align: center;
@@ -394,11 +439,11 @@ html #clear-completed:active {
 */
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	#toggle-all,
-	#todo-list li .toggle {
+	#vid-list li .toggle {
 		background: none;
 	}
 
-	#todo-list li .toggle {
+	#vid-list li .toggle {
 		height: 40px;
 	}
 
