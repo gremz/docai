@@ -19,10 +19,10 @@ var app = app || {};
 		events: {
 			'click .heart': 'addLike',
 			'dblclick label': 'edit',
-			'click .destroy': 'clear',
-			'keypress .edit': 'updateOnEnter',
-			'keydown .edit': 'revertOnEscape',
-			'blur .edit': 'close',
+			// 'click .destroy': 'clear',
+			// 'keypress .edit': 'updateOnEnter',
+			// 'keydown .edit': 'revertOnEscape',
+			// 'blur .edit': 'close',
 			'click .play-button': 'loadYtIFrame'
 		},
 
@@ -50,11 +50,11 @@ var app = app || {};
 			}
 
 			this.$el.html(this.template(this.model.toJSON()));
-			// this.$el.toggleClass('liked', this.isLiked());
-			this.$input = this.$('.edit');
+			// this.$input = this.$('.edit');
 			return this;
 		},
 
+		// Toggle view based on filter
 		toggleView: function () {
 			switch (app.VideoFilter) {
 				case 'liked':
@@ -79,65 +79,64 @@ var app = app || {};
 		},
 
 		// Switch this view into `"editing"` mode, displaying the input field.
-		edit: function () {
-			this.$el.addClass('editing');
-			this.$input.focus();
-		},
+		// edit: function () {
+		// 	this.$el.addClass('editing');
+		// 	this.$input.focus();
+		// },
 
 		// Close the `"editing"` mode, saving changes to the todo.
-		close: function () {
-			var value = this.$input.val();
-			var trimmedUrl = value.trim();
+		// close: function () {
+		// 	var value = this.$input.val();
+		// 	var trimmedUrl = value.trim();
 
-			// We don't want to handle blur events from an item that is no
-			// longer being edited. Relying on the CSS class here has the
-			// benefit of us not having to maintain state in the DOM and the
-			// JavaScript logic.
-			if (!this.$el.hasClass('editing')) {
-				return;
-			}
+		// 	// We don't want to handle blur events from an item that is no
+		// 	// longer being edited. Relying on the CSS class here has the
+		// 	// benefit of us not having to maintain state in the DOM and the
+		// 	// JavaScript logic.
+		// 	if (!this.$el.hasClass('editing')) {
+		// 		return;
+		// 	}
 
-			if (trimmedUrl) {
-				this.model.save({ url: trimmedUrl });
+		// 	if (trimmedUrl) {
+		// 		this.model.save({ url: trimmedUrl });
 
-				if (value !== trimmedUrl) {
-					// Model values changes consisting of whitespaces only are
-					// not causing change to be triggered Therefore we've to
-					// compare untrimmed version with a trimmed one to check
-					// whether anything changed
-					// And if yes, we've to trigger change event ourselves
-					this.model.trigger('change');
-				}
-			} else {
-				this.clear();
-			}
+		// 		if (value !== trimmedUrl) {
+		// 			// Model values changes consisting of whitespaces only are
+		// 			// not causing change to be triggered Therefore we've to
+		// 			// compare untrimmed version with a trimmed one to check
+		// 			// whether anything changed
+		// 			// And if yes, we've to trigger change event ourselves
+		// 			this.model.trigger('change');
+		// 		}
+		// 	} else {
+		// 		this.clear();
+		// 	}
 
-			this.$el.removeClass('editing');
-		},
+		// 	this.$el.removeClass('editing');
+		// },
 
 		// If you hit `enter`, we're through editing the item.
-		updateOnEnter: function (e) {
-			if (e.which === ENTER_KEY) {
-				this.close();
-			}
-		},
+		// updateOnEnter: function (e) {
+		// 	if (e.which === ENTER_KEY) {
+		// 		this.close();
+		// 	}
+		// },
 
 		// If you're pressing `escape` we revert your change by simply leaving
 		// the `editing` state.
-		revertOnEscape: function (e) {
-			if (e.which === ESC_KEY) {
-				this.$el.removeClass('editing');
-				// Also reset the hidden input back to the original value.
-				this.$input.val(this.model.get('title'));
-			}
-		},
+		// revertOnEscape: function (e) {
+		// 	if (e.which === ESC_KEY) {
+		// 		this.$el.removeClass('editing');
+		// 		// Also reset the hidden input back to the original value.
+		// 		this.$input.val(this.model.get('title'));
+		// 	}
+		// },
 
 		// Remove the item, destroy the model from *localStorage* and delete its view.
-		clear: function () {
-			this.model.destroy();
-		},
+		// clear: function () {
+		// 	this.model.destroy();
+		// },
 		loadYtIFrame: function() {
-			// window.location = this.model.get('url');
 			this.$el.find('.thumbnail-container').html('<iframe id="ytplayer" type="text/html" ' + 
 				'src="http://www.youtube.com/embed/' + this.model.get('yt_id') + 
 				'?autoplay=1&fs=1&origin=http://ssor.local.assets" frameborder="0"/>');

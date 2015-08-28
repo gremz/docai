@@ -17,15 +17,14 @@ var app = app || {};
 		// Our template for the line of statistics at the bottom of the app.
 		statsTemplate: _.template($('#stats-template').html()),
 
-		// Delegated events for creating new items, and clearing completed ones.
+		// Delegated events for creating new videos
 		events: {
 			'keypress #new-vid': 'createOnEnter',
-			'click #clear-completed': 'clearCompleted',
 		},
 
 		// At initialization we bind to the relevant events on the `Videos`
 		// collection, when items are added or changed. Kick things off by
-		// loading any preexisting videos that might be saved in *localStorage*.
+		// loading any preexisting videos that might be saved in *Firebase*.
 		initialize: function () {
 			this.$input = this.$('#new-vid');
 			this.$nav = this.$('nav');
@@ -38,11 +37,7 @@ var app = app || {};
 			this.listenTo(app.videos, 'filter sync', this.filterAll);
 			this.listenTo(app.videos, 'all', _.debounce(this.render, 0));
 
-			// Suppresses 'add' events with {reset: true} and prevents the app view
-			// from being re-rendered for every model. Only renders when the 'reset'
-			// event is triggered at the end of the fetch.
-			// app.videos.fetch({reset: true});
-			// view.fetch();
+			// no fetch needed with *Firebase* autoSync = true
 		},
 
 		// Re-rendering the App just means refreshing the statistics -- the rest
@@ -71,7 +66,7 @@ var app = app || {};
 		},
 
 		// Add a single video item to the list by creating a view for it, and
-		// appending its element to the `<ul>`.
+		// prepending its element to the `<ul>`.
 		addOne: function (video) {
 			var view = new app.VideoView({ model: video });
 			this.$list.prepend(view.render().el);
@@ -83,10 +78,12 @@ var app = app || {};
 			app.videos.each(this.addOne, this);
 		},
 
+		// decide if video should be shown
 		filterOne: function (video) {
 			video.trigger('showhide');
 		},
 
+		// display videos based on filter
 		filterAll: function () {
 			switch (app.VideoFilter) {
 				case 'liked':
@@ -103,7 +100,7 @@ var app = app || {};
 			app.videos.each(this.filterOne, this);
 		},
 
-		// Generate the attributes for a new Todo item.
+		// Generate the attributes for a new Video item.
 		newAttributes: function () {
 			return {
 				url: this.$input.val().trim(),

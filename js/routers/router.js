@@ -12,12 +12,11 @@ var app = app || {};
 		},
 
 		setFilter: function (param) {
-			console.log('filter');
+
 			// Set the current filter to be used
 			app.VideoFilter = param || '';
 
-			// Trigger a collection filter event, causing hiding/unhiding
-			// of Video view items
+			// Trigger a collection filter to sort/filter Videos
 			app.videos.trigger('filter');
 		}
 	});

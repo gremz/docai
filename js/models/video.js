@@ -10,7 +10,7 @@ var app = app || {};
 	// Our basic **Video** model
 	app.Video = Backbone.Model.extend({
 
-		// when a video is added generate a yt_id and get title/thumbnail data
+		// generate data if video was just created
 		initialize: function() {
 			this.on('add', function() {
 				!this.get('yt_id') && this.setYtData();
@@ -25,7 +25,7 @@ var app = app || {};
 			likes: 0
 		},
 
-		// Add the `like` state of this video.
+		// Increase like by 1
 		addLike: function () {
 			this.save({
 				likes: this.get('likes') + 1
@@ -37,6 +37,7 @@ var app = app || {};
 			return (url || '').match(/v=(.*)$/)[1];
 		},
 
+		// fetch YouTube data based on yt_id and save
 		setYtData: function() {
 			var model = this,
 				yt_id = this.generateYtId(model.get('url'));
