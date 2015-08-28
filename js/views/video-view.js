@@ -32,7 +32,9 @@ var app = app || {};
 		// convenience.
 		initialize: function () {
 			this.listenTo(this.model, 'change', this.render);
-			this.listenTo(this.model, 'destroy', this.remove);
+			this.listenTo(this.model, 'invalid', function() { console.log('tried to destory'); });
+			// this.listenTo(this.model, 'remove', this.remove);
+			// this.listenTo(this.model, 'destroy', this.remove);
 			this.listenTo(this.model, 'showhide', this.toggleView);
 		},
 

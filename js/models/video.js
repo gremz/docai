@@ -13,7 +13,17 @@ var app = app || {};
 		// generate data if video was just created
 		initialize: function() {
 			this.on('add', function() {
-				!this.get('yt_id') && this.setYtData();
+				if (!this.get('yt_id')) {
+					if (!this.isValid()) {
+						// this.trigger('remove');
+					} else {
+						this.setYtData();
+					}
+				}
+			});
+
+			this.on('invalid', function(model, error) {
+				app.pendingVideos.trigger('invalid', this, error);
 			});
 		},
 
@@ -25,6 +35,13 @@ var app = app || {};
 			likes: 0
 		},
 
+		ytRegExp: /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/,
+
+		validate: function(attrs, options) {
+			if (!(attrs.url.match(this.ytRegExp) || []).length)
+				return 'The link you provided doesn\'t appear to be valid';
+		},
+
 		// Increase like by 1
 		addLike: function () {
 			this.save({
@@ -34,7 +51,7 @@ var app = app || {};
 
 		// return a yt_id based on url
 		generateYtId: function(url) {
-			return (url || '').match(/v=(.*)$/)[1];
+			return (url || '').match(this.ytRegExp)[1];
 		},
 
 		// fetch YouTube data based on yt_id and save

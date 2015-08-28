@@ -8,34 +8,20 @@ var app = app || {};
 	// ---------------
 
 	// The collection of videos is backed by *Firebase*
-	var Videos = Backbone.Firebase.Collection.extend({
+	var PendingVideos = Backbone.Firebase.Collection.extend({
 		// Reference to this collection's model.
 		model: app.Video,
 
-		url: 'https://docai.firebaseio.com/videos/approved',
+		url: 'https://docai.firebaseio.com/videos/pending',
 
-		// Return list of all liked videos
-		mostLiked: function() {
-			return this.filter(function(video) {
-				return video.get('likes') > 0;
+		initialize: function() {
+			this.on('all', function(event) {
+				console.log(event);
 			});
-		},
 
-		// Sort videos by likes
-		sortMostLiked: function () {
-			app.videos.comparator = 'likes';
-			app.videos.sort();
-		},
-
-		// Sort videos my date
-		sortRecent: function() {
-			app.videos.comparator = 'order';
-			app.videos.sort();
-		},
-
-		// Filter only watched items from localStorage
-		watched: function () {
-			// TODO
+			// this.on('sync', function(model) {
+			// 	!model.isValid() && model.remove();
+			// })
 		},
 
 		// We keep the Videos in sequential order, despite being saved by unordered
@@ -49,5 +35,5 @@ var app = app || {};
 	});
 
 	// Create our global collection of **Videos**.
-	app.videos = new Videos();
+	app.pendingVideos = new PendingVideos();
 })();

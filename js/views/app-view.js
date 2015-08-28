@@ -30,13 +30,17 @@ var app = app || {};
 			this.$nav = this.$('nav');
 			this.$main = this.$('#main');
 			this.$list = $('#vid-list');
+			this.$errorContainer = $('.errorContainer');
+			this.$successContainer = $('.successContainer');
 
 			this.listenTo(app.videos, 'add', this.addOne);
 			this.listenTo(app.videos, 'reset', this.addAll);
 			this.listenTo(app.videos, 'change:likes', this.filterOne);
 			this.listenTo(app.videos, 'filter sync', this.filterAll);
+			// this.listenTo(app.videos, 'invalid', this.showBannerError);
 			this.listenTo(app.videos, 'all', _.debounce(this.render, 0));
 
+			this.listenTo(app.pendingVideos, 'invalid', this.showBannerError);
 			// no fetch needed with *Firebase* autoSync = true
 		},
 
@@ -104,7 +108,7 @@ var app = app || {};
 		newAttributes: function () {
 			return {
 				url: this.$input.val().trim(),
-				order: app.videos.nextOrder(),
+				order: app.pendingVideos.nextOrder(),
 				likes: 0
 			};
 		},
@@ -112,9 +116,36 @@ var app = app || {};
 		// If you hit return in the main input field, create new **Video** model,
 		createOnEnter: function (e) {
 			if (e.which === ENTER_KEY && this.$input.val().trim()) {
-				app.videos.create(this.newAttributes());
-				this.$input.val('');
+				var video = new app.Video(this.newAttributes());
+
+				if (video.isValid()) {
+					app.pendingVideos.create(this.newAttributes());
+					this.showBannerSuccess(video, 'Your link has been submitted for approval');
+					this.$input.val('');
+				} else {
+				}
 			}
+		},
+
+		showBannerSuccess: function(model, message) {
+			console.log(arguments);
+			var view = this,
+				successContainer = _.template($('#success-template').html());
+
+			this.$errorContainer.append(successContainer({ message: message}));
+			setTimeout(function() {
+				view.$errorContainer.children().first().remove();
+			}, 5000);
+		},
+
+		showBannerError: function(model, error) {
+			var view = this,
+				errorContainer = _.template($('#error-template').html());
+
+			this.$errorContainer.append(errorContainer({error: error}));
+			setTimeout(function() {
+				view.$errorContainer.children().first().remove();
+			}, 5000);
 		}
 	});
 })(jQuery);

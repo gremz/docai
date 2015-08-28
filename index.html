@@ -10,7 +10,7 @@
 			<header id="header">
 				<h1>docai</h1>
 				<h2>your documentary buffet</h2>
-				<input id="new-vid" placeholder="Submit a video link" autofocus>
+				<input id="new-vid" placeholder="Submit a YouTube video link" autofocus>
 			</header>
 			<nav></nav>
 			<section id="main">
@@ -20,6 +20,7 @@
 		<footer id="info">
 			<p>See a broken link? Double-click to edit the Video Source</p>
 		</footer>
+		<div class="errorContainer"></div>
 		<script type="text/template" id="item-template">
 			<div class="view">
 				<label><%- title %></label>
@@ -31,10 +32,9 @@
 					<button class="heart <%= likes ? 'liked' : '' %> " val="<%= likes %>"></button>
 				</div>
 			</div>
-			<input class="edit" value="<%- url %>">
+			<!-- <input class="edit" value="<%- url %>"> -->
 		</script>
-		<script type="text/template" id="stats-template">
-			
+		<script type="text/template" id="stats-template">		
 			<ul id="filters">
 				<li>
 					<a class="selected" href="#/">Recent</a>
@@ -42,13 +42,19 @@
 				<li>
 					<a href="#/liked">Most liked</a>
 				</li>
-				<li>
+				<!-- <li>
 					<a href="#">Watched</a>
-				</li>
+				</li> TODO --> 
 			</ul>
 		</script>
 		<script type="text/template" id="overlay-template">
 			<div id="overlay"><%= video %></div>
+		</script>		
+		<script type="text/template" id="error-template">
+			<div class="error"><%= error %></div>
+		</script>
+		<script type="text/template" id="success-template">
+			<div class="success"><%= message %></div>
 		</script>
 
 		<script src="lib/jquery.js"></script>
@@ -58,6 +64,7 @@
 		<script src="lib/backbonefire.js"></script>
 		<script src="js/models/video.js"></script>
 		<script src="js/collections/videos.js"></script>
+		<script src="js/collections/pendingVideos.js"></script>
 		<script src="js/views/video-view.js"></script>
 		<script src="js/views/app-view.js"></script>
 		<script src="js/routers/router.js"></script>
