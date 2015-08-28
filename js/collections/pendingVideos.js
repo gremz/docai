@@ -19,9 +19,9 @@ var app = app || {};
 				console.log(event);
 			});
 
-			// this.on('sync', function(model) {
-			// 	!model.isValid() && model.remove();
-			// })
+			this.on('error', function(model) {
+				console.log(arguments);
+			})
 		},
 
 		// We keep the Videos in sequential order, despite being saved by unordered

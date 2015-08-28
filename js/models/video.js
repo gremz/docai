@@ -22,6 +22,10 @@ var app = app || {};
 				}
 			});
 
+			this.on('all', function(events) {
+				console.log(events);
+			});
+
 			this.on('invalid', function(model, error) {
 				app.pendingVideos.trigger('invalid', this, error);
 			});
