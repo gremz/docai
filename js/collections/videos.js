@@ -14,25 +14,26 @@ var app = app || {};
 
 		url: 'https://docai.firebaseio.com/videos',
 
-		// Filter down the list of all video items that are top rated.
+		// Return list of all liked videos
 		mostLiked: function() {
-			// console.log('mostLiked video likes: ', video.get(''))
 			return this.filter(function(video) {
 				return video.get('likes') > 0;
 			});
 		},
 
+		// Sort videos by likes
 		sortMostLiked: function () {
 			app.videos.comparator = 'likes';
 			app.videos.sort();
 		},
 
+		// Sort videos my date
 		sortRecent: function() {
 			app.videos.comparator = 'order';
 			app.videos.sort();
 		},
 
-		// Filter down the list to only todo items that are still not finished.
+		// Filter only watched items from localStorage
 		watched: function () {
 			// TODO
 		},

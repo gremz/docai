@@ -9,10 +9,11 @@ var app = app || {};
 
 	// Our basic **Video** model
 	app.Video = Backbone.Model.extend({
+
+		// when a video is added generate a yt_id and get title/thumbnail data
 		initialize: function() {
-			this.on('add change:url', function() {
-				this.set({ yt_id: this.get('url').match(/v=(.*)$/)[1] });
-				this.getYtData();
+			this.on('add', function() {
+				!this.get('yt_id') && this.setYtData();
 			});
 		},
 
@@ -30,14 +31,22 @@ var app = app || {};
 				likes: this.get('likes') + 1
 			});
 		},
-		getYtData: function() {
-			var model = this;
+
+		// return a yt_id based on url
+		generateYtId: function(url) {
+			return (url || '').match(/v=(.*)$/)[1];
+		},
+
+		setYtData: function() {
+			var model = this,
+				yt_id = this.generateYtId(model.get('url'));
 
 			$.get('https://www.googleapis.com/youtube/v3/videos?part=snippet&id=' + 
-				this.get('yt_id') + '&key=AIzaSyA_RmWcwKvNhUqy8A9hhDx4zY0255daCRU')
+				yt_id + '&key=AIzaSyA_RmWcwKvNhUqy8A9hhDx4zY0255daCRU')
 					.done(function(data) {
 						var vid = data.items[0].snippet;
-						model.save({ 
+						model.save({
+							yt_id: yt_id,
 							title: vid.title,
 							thumbnail: vid.thumbnails.high.url });
 					});
