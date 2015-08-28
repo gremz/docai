@@ -12,6 +12,7 @@ var app = app || {};
 		},
 
 		setFilter: function (param) {
+			console.log('filter');
 			// Set the current filter to be used
 			app.VideoFilter = param || '';
 

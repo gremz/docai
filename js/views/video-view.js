@@ -17,7 +17,7 @@ var app = app || {};
 
 		// The DOM events specific to an item.
 		events: {
-			'click .like': 'addLike',
+			'click .heart': 'addLike',
 			'dblclick label': 'edit',
 			'click .destroy': 'clear',
 			'keypress .edit': 'updateOnEnter',
@@ -33,7 +33,7 @@ var app = app || {};
 		initialize: function () {
 			this.listenTo(this.model, 'change', this.render);
 			this.listenTo(this.model, 'destroy', this.remove);
-			this.listenTo(this.model, 'liked', this.toggleMostLiked);
+			this.listenTo(this.model, 'showhide', this.toggleView);
 		},
 
 		// Re-render the titles of the todo item.
@@ -50,20 +50,27 @@ var app = app || {};
 			}
 
 			this.$el.html(this.template(this.model.toJSON()));
-			this.$el.toggleClass('completed', this.model.get('completed'));
-			// this.toggleMostLiked();
+			// this.$el.toggleClass('liked', this.isLiked());
 			this.$input = this.$('.edit');
 			return this;
 		},
 
-		toggleMostLiked: function () {
-			this.$el.toggleClass('hidden', this.isLiked());
+		toggleView: function () {
+			switch (app.VideoFilter) {
+				case 'liked':
+					this.$el.toggleClass('hidden', !this.isLiked());
+					break;
+				case 'watched':
+					// TODO
+					break;
+				default:
+					this.$el.toggleClass('hidden', false);
+					break;
+			}
 		},
 
 		isLiked: function () {
-			return this.model.get('likes') > 0  && app.VideoFilter === 'liked';
-				// app.VideoFilter === 'liked' :
-				// app.VideoFilter === 'completed';
+			return this.model.get('likes') > 0;
 		},
 
 		// Add like to model.
@@ -131,9 +138,9 @@ var app = app || {};
 		},
 		loadYtIFrame: function() {
 			// window.location = this.model.get('url');
-			this.$el.find('.thumbnail-container').html('<iframe id="ytplayer" type="text/html" width="480" height="360"' + 
+			this.$el.find('.thumbnail-container').html('<iframe id="ytplayer" type="text/html" ' + 
 				'src="http://www.youtube.com/embed/' + this.model.get('yt_id') + 
-				'?autoplay=1&origin=http://example.com" frameborder="0"/>');
+				'?autoplay=1&fs=1&origin=http://ssor.local.assets" frameborder="0"/>');
 		}
 	});
 })(jQuery);

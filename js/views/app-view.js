@@ -28,54 +28,45 @@ var app = app || {};
 		// loading any preexisting videos that might be saved in *localStorage*.
 		initialize: function () {
 			this.$input = this.$('#new-vid');
-			this.$footer = this.$('#footer');
+			this.$nav = this.$('nav');
 			this.$main = this.$('#main');
 			this.$list = $('#vid-list');
 
 			this.listenTo(app.videos, 'add', this.addOne);
 			this.listenTo(app.videos, 'reset', this.addAll);
 			this.listenTo(app.videos, 'change:likes', this.filterOne);
-			this.listenTo(app.videos, 'filter', this.filterAll);
+			this.listenTo(app.videos, 'filter sync', this.filterAll);
 			this.listenTo(app.videos, 'all', _.debounce(this.render, 0));
-
-
 
 			// Suppresses 'add' events with {reset: true} and prevents the app view
 			// from being re-rendered for every model. Only renders when the 'reset'
 			// event is triggered at the end of the fetch.
-			app.videos.fetch({reset: true});
+			// app.videos.fetch({reset: true});
 			// view.fetch();
-		},
-
-		fetch: function() {
-			$.get('https://www.reddit.com/r/Documentaries.json')
-				.done(function(data) {
-					var vids = data.data.children;
-				});
 		},
 
 		// Re-rendering the App just means refreshing the statistics -- the rest
 		// of the app doesn't change.
 		render: function () {
-			var completed = app.videos.completed().length;
-			var remaining = app.videos.remaining().length;
+			var filterTotal = app.VideoFilter == 'liked' ? app.videos.mostLiked().length : app.videos.length,
+				watched; // TODO
 
-			if (app.videos.length) {
+			if (filterTotal) {
 				this.$main.show();
-				this.$footer.show();
+				this.$nav.show();
 
-				this.$footer.html(this.statsTemplate({
-					completed: completed,
-					remaining: remaining
+				this.$nav.html(this.statsTemplate({
+					total: filterTotal,
+					watched: 0 // TODO
 				}));
 
 				this.$('#filters li a')
 					.removeClass('selected')
-					.filter('[href="#/' + (app.TodoFilter || '') + '"]')
+					.filter('[href="#/' + (app.VideoFilter || '') + '"]')
 					.addClass('selected');
 			} else {
 				this.$main.hide();
-				this.$footer.hide();
+				this.$nav.hide();
 			}
 		},
 
@@ -93,10 +84,22 @@ var app = app || {};
 		},
 
 		filterOne: function (video) {
-			video.trigger('liked');
+			video.trigger('showhide');
 		},
 
 		filterAll: function () {
+			switch (app.VideoFilter) {
+				case 'liked':
+					app.videos.sortMostLiked();
+					break;
+				case 'watched':
+					// TODO
+					break;
+				default:
+					app.videos.sortRecent();
+					break;
+			}
+			app.videos.trigger('reset');
 			app.videos.each(this.filterOne, this);
 		},
 
@@ -115,12 +118,6 @@ var app = app || {};
 				app.videos.create(this.newAttributes());
 				this.$input.val('');
 			}
-		},
-
-		// Clear all completed video items, destroying their models.
-		// clearCompleted: function () {
-		// 	_.invoke(app.videos.completed(), 'destroy');
-		// 	return false;
-		// }
+		}
 	});
 })(jQuery);

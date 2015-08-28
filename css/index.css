@@ -46,7 +46,7 @@ input[type="checkbox"] {
 
 #ytfaves {
 	background: #fff;
-	margin: 130px 0 40px 0;
+	margin: 150px 0 40px 0;
 	position: relative;
 	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
 	            0 25px 50px 0 rgba(0, 0, 0, 0.1);
@@ -72,7 +72,7 @@ input[type="checkbox"] {
 
 #ytfaves h1 {
 	position: absolute;
-	top: -155px;
+	top: -185px;
 	width: 100%;
 	font-size: 100px;
 	font-weight: 100;
@@ -81,6 +81,14 @@ input[type="checkbox"] {
 	-webkit-text-rendering: optimizeLegibility;
 	-moz-text-rendering: optimizeLegibility;
 	text-rendering: optimizeLegibility;
+}
+
+#ytfaves h2 {
+    position: absolute;
+    top: -55px;
+    width: 100%;
+    text-align: center;
+    opacity: .6;
 }
 
 #new-vid,
@@ -105,7 +113,7 @@ input[type="checkbox"] {
 }
 
 #new-vid {
-	padding: 16px 16px 16px 60px;
+	padding: 16px 16px 16px 16px;
 	border: none;
 	background: rgba(0, 0, 0, 0.003);
 	box-shadow: inset 0 -2px 1px rgba(0,0,0,0.03);
@@ -197,10 +205,10 @@ label[for='toggle-all'] {
 }
 
 #vid-list li label {
-	white-space: pre;
+	/*white-space: pre;*/
 	word-break: break-word;
 	padding: 15px 80px 15px 0;
-	margin-left: 35px;
+	margin-left: 16px;
 	display: block;
 	line-height: 1.2;
 	transition: color 0.4s;
@@ -218,17 +226,23 @@ label[for='toggle-all'] {
 #vid-list li img ,
 #vid-list li iframe,
 .actions {
-	margin-left: 35px;
+	width: 100%;
 }
 
 #vid-list .thumbnail-container {
 	position: relative;
+    width: 100%;
+    height: 360px;
+    position: relative;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+
 }
 
 #vid-list .play-button {
-    position: absolute;
-    top: 160px;
-    left: 235px;
+    position: relative;
+    top: 45%;
+    margin: auto;
     height: 40px;
     width: 65px;    
     background-color: rgba(0, 0, 0, 0.7);
@@ -252,7 +266,10 @@ label[for='toggle-all'] {
 }
 
 #vid-list li .like {
-	color: red;
+	color: black;
+	float: right;
+	line-height: 1em;
+	padding-left: 5px;
 }
 
 #vid-list li .destroy {
@@ -290,11 +307,21 @@ label[for='toggle-all'] {
 	margin-bottom: -1px;
 }
 
+#ytplayer {
+	height: 100%;
+}
+
+.likeHolder {
+	height: 40px;
+	padding: 10px 35px 0 35px;
+}
+
 .heart {
-    position: absolute;
-    right: 32px;
+	position: relative;
+	float: right;
     width: 40px;
     height: 30px;
+    opacity: .50;
 }
 
 .heart:before,
@@ -305,7 +332,7 @@ label[for='toggle-all'] {
     top: 0;
     width: 20px;
     height: 30px;
-    background: red;
+    background: #f02b38;
     -moz-border-radius: 50px 50px 0 0;
     border-radius: 50px 50px 0 0;
     -webkit-transform: rotate(-45deg);
@@ -333,8 +360,13 @@ label[for='toggle-all'] {
             transform-origin :100% 100%;
 }
 
+.liked {
+	opacity: .9;
+}
 
-#footer {
+
+nav {
+	background-color: #f5f5f5;
 	color: #777;
 	padding: 10px 15px;
 	height: 20px;
@@ -342,7 +374,7 @@ label[for='toggle-all'] {
 	border-top: 1px solid #e6e6e6;
 }
 
-#footer:before {
+nav:before {
 	content: '';
 	position: absolute;
 	right: 0;
@@ -397,8 +429,8 @@ label[for='toggle-all'] {
 	border-color: rgba(175, 47, 47, 0.2);
 }
 
-#clear-completed,
-html #clear-completed:active {
+#clear-watched,
+html #clear-watched:active {
 	float: right;
 	position: relative;
 	line-height: 20px;
@@ -407,7 +439,7 @@ html #clear-completed:active {
 	position: relative;
 }
 
-#clear-completed:hover {
+#clear-watched:hover {
 	text-decoration: underline;
 }
 
@@ -456,11 +488,15 @@ html #clear-completed:active {
 }
 
 @media (max-width: 430px) {
-	#footer {
+	nav {
 		height: 50px;
 	}
 
 	#filters {
 		bottom: 10px;
+	}
+
+	#vid-list li {
+		font-size: 18px;
 	}
 }

@@ -27,7 +27,7 @@ var app = app || {};
 		// Add the `like` state of this video.
 		addLike: function () {
 			this.save({
-				completed: this.get('likes') + 1
+				likes: this.get('likes') + 1
 			});
 		},
 		getYtData: function() {

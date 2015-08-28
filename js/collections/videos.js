@@ -15,14 +15,26 @@ var app = app || {};
 		url: 'https://docai.firebaseio.com/videos',
 
 		// Filter down the list of all video items that are top rated.
-		mostLiked: function () {
-			// return this.where({completed: true});
-			return this.orderByChild('mostLiked');
+		mostLiked: function() {
+			// console.log('mostLiked video likes: ', video.get(''))
+			return this.filter(function(video) {
+				return video.get('likes') > 0;
+			});
+		},
+
+		sortMostLiked: function () {
+			app.videos.comparator = 'likes';
+			app.videos.sort();
+		},
+
+		sortRecent: function() {
+			app.videos.comparator = 'order';
+			app.videos.sort();
 		},
 
 		// Filter down the list to only todo items that are still not finished.
-		remaining: function () {
-			return this.where({completed: false});
+		watched: function () {
+			// TODO
 		},
 
 		// We keep the Videos in sequential order, despite being saved by unordered
